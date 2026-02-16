@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2 class="page-title">Registrar Nuevo Críptido</h2>
+    <p class="page-desc">Completa el formulario de clasificación de entidad</p>
+</div>
+
+<article class="form-container">
+    <form action="{{ url_for('create') }}" method="POST"
+          id="form-criptido" novalidate>
+
+        <div class="form-group">
+            <label class="form-label" for="nombre">Nombre del Críptido *</label>
+            <input
+                class="form-input"
+                type="text"
+                id="nombre"
+                name="nombre"
+                placeholder="Ej: Mothman, Chupacabras…"
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="especie">Especie / Clasificación</label>
+            <input
+                class="form-input"
+                type="text"
+                id="especie"
+                name="especie"
+                placeholder="Ej: Humanoidea alada"
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="habitat">Hábitat</label>
+            <input
+                class="form-input"
+                type="text"
+                id="habitat"
+                name="habitat"
+                placeholder="Ej: Bosques del norte de América"
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="descripcion">Descripción</label>
+            <textarea
+                class="form-input form-textarea"
+                id="descripcion"
+                name="descripcion"
+                rows="4"
+                placeholder="Describe la apariencia, comportamientos o características relevantes…"
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="nivel_peligro">Nivel de Peligro (1 – 5) *</label>
+            <input
+                class="form-input"
+                type="number"
+                id="nivel_peligro"
+                name="nivel_peligro"
+                min="1"
+                max="5"
+                placeholder="1 = Inofensivo  |  5 = Apocalíptico"
+                required
+            />
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn--primary" type="submit">
+                ⊕ Registrar Críptido
+            </button>
+            <a class="btn btn--secondary" href="{{ url_for('index') }}">
+                ← Volver al archivo
+            </a>
+        </div>
+
+    </form>
+</article>
+
+{% endblock %}
