@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2 class="page-title">Avistamientos de {{ criptido['nombre'] }}</h2>
+    <p class="page-desc">Registro y consulta de encuentros con esta entidad</p>
+</div>
+
+<article class="form-container">
+    <form action="{{ url_for('avistamientos', criptido_id=criptido['id']) }}" method="POST" id="form-avistamiento" novalidate>
+        
+        <div class="form-group">
+            <label class="form-label" for="fecha">Fecha *</label>
+            <input class="form-input" type="date" id="fecha" name="fecha" required />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="ubicacion">Ubicación *</label>
+            <input class="form-input" type="text" id="ubicacion" name="ubicacion" placeholder="Ej: Bosque de Tlaxcala" required />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="detalles">Detalles</label>
+            <textarea class="form-input form-textarea" id="detalles" name="detalles" rows="4" placeholder="Describe lo sucedido..."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn--primary" type="submit">
+                ⊕ Registrar Avistamiento
+            </button>
+            <a class="btn btn--secondary" href="{{ url_for('index') }}">
+                ← Volver al archivo
+            </a>
+        </div>
+
+    </form>
+</article>
+
+{% if avistamientos %}
+<div class="avistamientos-list">
+    <h3>Historial de Avistamientos</h3>
+    <ul class="avistamientos-grid">
+        {% for avistamiento in avistamientos %}
+        <li class="avistamiento-card">
+            <p><strong>Fecha:</strong> {{ avistamiento['fecha'] }}</p>
+            <p><strong>Ubicación:</strong> {{ avistamiento['ubicacion'] }}</p>
+            <p><strong>Detalles:</strong> {{ avistamiento['detalles'] }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="empty-state">
+    <p>No hay avistamientos registrados para este críptido.</p>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -132,6 +132,28 @@ def delete(id):
     db.commit()
     return redirect(url_for('index'))
 
+@app.route('/avistamientos/<int:criptido_id>', methods=['GET', 'POST'])
+@login_required
+def avistamientos(criptido_id):
+    db = get_db()
+    
+    if request.method == 'POST':
+        fecha = request.form['fecha']
+        ubicacion = request.form['ubicacion']
+        detalles = request.form['detalles']
+        
+        db.execute(
+            'INSERT INTO avistamientos (fecha, ubicacion, detalles, criptido_id) VALUES (?, ?, ?, ?)',
+            (fecha, ubicacion, detalles, criptido_id)
+        )
+        db.commit()
+        return redirect(url_for('avistamientos', criptido_id=criptido_id))
+
+    criptido = db.execute('SELECT * FROM criptidos WHERE id = ?', (criptido_id,)).fetchone()
+    avistamientos = db.execute('SELECT * FROM avistamientos WHERE criptido_id = ? ORDER BY fecha DESC', (criptido_id,)).fetchall()
+    
+    return render_template('avistamientos.html', criptido=criptido, avistamientos=avistamientos)
+
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
     error = None
