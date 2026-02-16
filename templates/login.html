@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2 class="page-title">Acceso al Archivo</h2>
+    <p class="page-desc">Identificación de agente requerida</p>
+</div>
+
+<article class="form-container form-container--narrow">
+
+    {% if error %}
+    <div class="alert alert--error" role="alert">
+        ⚠ {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="{{ url_for('login') }}" method="POST" id="form-login" novalidate>
+
+        <div class="form-group">
+            <label class="form-label" for="username">Usuario</label>
+            <input
+                class="form-input"
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Nombre de agente"
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="password">Contraseña</label>
+            <input
+                class="form-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Clave de acceso"
+                required
+            />
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn--primary" type="submit">
+                → Ingresar
+            </button>
+        </div>
+
+    </form>
+
+    <p class="form-footer-text">
+        ¿Sin cuenta? <a class="form-link" href="{{ url_for('registro') }}">Regístrate aquí</a>
+    </p>
+
+</article>
+
+{% endblock %}
