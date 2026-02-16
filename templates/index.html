@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-header">
+    <h2 class="page-title">Registros del Bestiario</h2>
+    <p class="page-desc">Entidades catalogadas en el archivo paranormal</p>
+</div>
+
+{% if criptidos %}
+<ul class="criptido-grid" role="list">
+    {% for criptido in criptidos %}
+    <li class="criptido-card">
+
+        <div class="card-header">
+            <span class="card-id">#{{ criptido['id'] }}</span>
+            <h3 class="card-nombre">{{ criptido['nombre'] }}</h3>
+        </div>
+
+        <dl class="card-data">
+            <dt>Especie</dt>
+            <dd>{{ criptido['especie'] or '—' }}</dd>
+
+            <dt>Hábitat</dt>
+            <dd>{{ criptido['habitat'] or '—' }}</dd>
+
+            {% if criptido['descripcion'] %}
+            <dt>Descripción</dt>
+            <dd class="card-desc">{{ criptido['descripcion'] }}</dd>
+            {% endif %}
+        </dl>
+
+        <div class="card-peligro" aria-label="Nivel de peligro: {{ criptido['nivel_peligro'] }} de 5">
+            <span class="peligro-label">Peligro:</span>
+            <span class="peligro-dots">
+                {% for i in range(1, 6) %}
+                <span class="dot {% if i <= criptido['nivel_peligro'] %}dot--active{% endif %}"></span>
+                {% endfor %}
+            </span>
+            <span class="peligro-num">{{ criptido['nivel_peligro'] }}/5</span>
+        </div>
+
+        <div class="card-actions">
+            <a class="btn btn--edit" href="{{ url_for('edit', id=criptido['id']) }}">
+                ✎ Editar
+            </a>
+            <a class="btn btn--delete" href="{{ url_for('delete', id=criptido['id']) }}"
+                onclick="return confirmarEliminar()">
+                ✕ Eliminar
+            </a>
+        </div>
+
+    </li>
+    {% endfor %}
+</ul>
+
+{% else %}
+<div class="empty-state">
+    <p class="empty-symbol">⧖</p>
+    <p class="empty-text">No hay críptidos registrados en el archivo.</p>
+    <a class="btn btn--primary" href="{{ url_for('create') }}">Agregar el primero</a>
+</div>
+{% endif %}
+
+{% endblock %}
